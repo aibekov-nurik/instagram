@@ -1,0 +1,24 @@
+<!-- templates/home.html -->
+
+{% extends "base_generic.html" %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+<h1>Добро пожаловать на наш сайт!</h1>
+
+{% if posts %}
+    <ul>
+        {% for post in posts %}
+            <li>
+                <img src="{{ post.image.url }}" alt="Публикация">
+                <p>{{ post.description }}</p>
+                <p>Автор: {{ post.author.username }}</p>
+                <p>Дата: {{ post.created_at }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Нет новых публикаций.</p>
+{% endif %}
+{% endblock %}

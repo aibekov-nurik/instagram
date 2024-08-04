@@ -1,0 +1,17 @@
+<!-- accounts/templates/accounts/profile.html -->
+
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<h1>{{ user.username }}</h1>
+<p>{{ user.profile.bio }}</p>
+
+<h2>Posts</h2>
+<div>
+    {% for post in user.posts.all %}
+    <a href="{% url 'post_detail' post.id %}">
+        <img src="{{ post.image.url }}" alt="{{ post.caption }}" width="100">
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+<!-- inst_web/templates/create_post.html -->
+
+{% extends "base_generic.html" %}
+
+{% block title %}Создать публикацию{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="mb-4">Создать публикацию</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary mt-3">Создать</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

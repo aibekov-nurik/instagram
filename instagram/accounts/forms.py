@@ -1,6 +1,10 @@
+# accounts/forms.py
+
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
+User = get_user_model()
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -16,3 +20,6 @@ class RegisterForm(UserCreationForm):
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(label="Username or Email")
+
+class UserSearchForm(forms.Form):
+    query = forms.CharField(label='Поиск пользователей', max_length=100)
