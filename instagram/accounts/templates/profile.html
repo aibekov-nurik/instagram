@@ -1,17 +1,49 @@
-<!-- accounts/templates/accounts/profile.html -->
-
 {% extends 'base_generic.html' %}
 
-{% block content %}
-<h1>{{ user.username }}</h1>
-<p>{{ user.profile.bio }}</p>
+{% load static %} 
 
-<h2>Posts</h2>
-<div>
-    {% for post in user.posts.all %}
-    <a href="{% url 'post_detail' post.id %}">
-        <img src="{{ post.image.url }}" alt="{{ post.caption }}" width="100">
-    </a>
-    {% endfor %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            {% if user.avatar %}
+                <img src="{{ user.avatar.url }}" alt="{{ user.username }}" class="img-fluid rounded-circle">
+            {% else %}
+                <img src="{% static 'images/default_avatar.png' %}" alt="{{ user.username }}" class="img-fluid rounded-circle">
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <h1>{{ user.username }}</h1>
+            <p>{{ user.bio }}</p>
+            <p>Публикаций: {{ posts_count }}</p>
+            <p>Подписчиков: {{ followers_count }}</p>
+            <p>Подписки: {{ following_count }}</p>
+            {% if request.user.is_authenticated %}
+                {% if is_following %}
+                    <form method="post" action="{% url 'unfollow' username=user.username %}">
+                        {% csrf_token %}
+                        <button class="btn btn-secondary">Отписаться</button>
+                    </form>
+                {% else %}
+                    <form method="post" action="{% url 'follow' username=user.username %}">
+                        {% csrf_token %}
+                        <button class="btn btn-primary">Подписаться</button>
+                    </form>
+                {% endif %}
+            {% endif %}
+            <h2>Posts</h2>
+            <div class="row">
+                {% for post in posts %}
+                <div class="col-md-4 mb-3">
+                    <a href="{% url 'post_detail' post.id %}">
+                        <img src="{{ post.image.url }}" alt="{{ post.caption }}" class="img-fluid">
+                    </a>
+                </div>
+                {% empty %}
+                <p>Нет публикаций.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

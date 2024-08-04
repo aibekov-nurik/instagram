@@ -1,11 +1,14 @@
-<!-- templates/home.html -->
-
 {% extends "base_generic.html" %}
+{% load static %} 
 
 {% block title %}Главная страница{% endblock %}
 
 {% block content %}
 <h1>Добро пожаловать на наш сайт!</h1>
+
+{% if user.is_authenticated %}
+    <a href="{% url 'profile' username=user.username %}" class="btn btn-primary">Перейти на свой профиль</a>
+{% endif %}
 
 {% if posts %}
     <ul>
